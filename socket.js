@@ -9,9 +9,9 @@ const options = {
 const io = require("socket.io")(server, options);
 io.on("connection", (socket) => {
   console.log("its working");
-  socket.on("app_data", (incoming) => {
-    console.log(incoming);
-    io.emit("from_Api", incoming);
+  socket.on("room", (newRoom) => {
+    console.log(newRoom);
+    // io.emit("from_Api", incoming);
   });
 });
 
