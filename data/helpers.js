@@ -1,4 +1,7 @@
 import { Hand } from "pokersolver";
+const deck = require("./cardDeck");
+const Players = require("../players/playersModel");
+const Table = require("../table/tableModel");
 
 module.exports = {
   shuffle,
@@ -59,4 +62,24 @@ function shuffle(arry) {
       .map((a) => a.value);
   });
   return newArray;
+}
+async function startGame(gameCode) {
+  const table = await Table.findByGameCode(gameCode);
+  const players = await Players.findByTableId(table.id);
+  if (players.length < 3) {
+    players.forEach((player) => {
+      if (player.playerId === 1) {
+        Players.update(player.id, {
+          isButton: true,
+          isLarge: true,
+          chips: player.chips - table.bigBlind,
+        });
+      } else {
+        Players.update(player.id, {
+          isSmall: true,
+          chips: player.chips - table.smallBlind,
+        });
+      }
+    });
+  }
 }

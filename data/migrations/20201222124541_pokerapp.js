@@ -19,6 +19,7 @@ exports.up = function (knex) {
       tbl.string("community");
       tbl.string("burn");
       tbl.integer("numberOfPlayers");
+      tbl.integer("buttonLocation");
       tbl
         .integer("user_id")
         .unsigned()
@@ -39,6 +40,7 @@ exports.up = function (knex) {
       tbl.boolean("isButton").defaultTo(false);
       tbl.string("currentHand");
       tbl.string("finalHand");
+      tbl.integer("user");
       tbl
         .integer("table_id")
         .unsigned()

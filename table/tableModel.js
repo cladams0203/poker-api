@@ -16,8 +16,8 @@ function findById(id) {
   return db("table").where({ id }).first();
 }
 
-function findByGameCode(gameCode) {
-  return db("table").where({ gameCode }).first();
+function findByGameCode(tableCode) {
+  return db("table").where({ tableCode }).first();
 }
 
 async function insert(table) {

@@ -1,5 +1,7 @@
 const app = require("./server");
 const http = require("http");
+const Table = require("./table/tableModel");
+const Players = require("./players/playersModel");
 
 const server = http.createServer(app);
 const options = {
@@ -8,10 +10,16 @@ const options = {
 
 const io = require("socket.io")(server, options);
 io.on("connection", (socket) => {
-  console.log("its working");
   socket.on("room", (newRoom) => {
-    console.log(newRoom);
-    // io.emit("from_Api", incoming);
+    socket.join(newRoom);
+    Table.findByGameCode(newRoom).then((table) => {
+      Players.findByTableId(table.id).then((players) => {
+        io.in(newRoom).emit("players", players);
+      });
+    });
+  });
+  socket.on("startGame", (gameCode) => {
+    console.log(gameCode);
   });
 });
 
